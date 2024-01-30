@@ -1,0 +1,30 @@
+name: Build n Upload Docker Image
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    if: "!contains(github.event.head_commit.message, 'skip build')"
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v1
+    
+    - name: Docker Login
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      run: |
+        docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN
+    
+    - name: "Build docker image"
+      run: |
+        docker build . -t eforen/docker-palworld-dedicated-server:latest
+    
+    - name: "Push docker image to DockerHub"
+      run: |
+        docker push eforen/docker-palworld-dedicated-server:latest
