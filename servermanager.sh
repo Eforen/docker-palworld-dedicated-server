@@ -4,6 +4,7 @@
 #set -e
 
 GAME_PATH="/palworld"
+ls -al $GAME_PATH
 
 function installServer() {
     # force a fresh install of all
