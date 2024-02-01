@@ -4,6 +4,7 @@
 #set -e
 
 GAME_PATH="/palworld"
+chown steam:steam -R /palworld
 
 function installServer() {
     # force a fresh install of all
